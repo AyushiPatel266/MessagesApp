@@ -1,3 +1,4 @@
-// At root (not in src/), replace the default App.tsx with:
+// App.tsx (Root)
+import React from 'react';
 import App from './src/App';
 export default App;

@@ -1,50 +1,150 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  FlatList,
-  Text,
-  TouchableOpacity,
   View,
+  Text,
+  FlatList,
+  TouchableOpacity,
   StyleSheet,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
 } from 'react-native';
 import { Directory } from '../data/data';
+import { useTheme } from '../context/ThemeContext';
 
-interface MessageScreenProps {
+interface Props {
   directory: Directory;
   onBack: () => void;
 }
 
-const MessageScreen: React.FC<MessageScreenProps> = ({ directory, onBack }) => (
-  <View style={styles.container}>
-    <TouchableOpacity onPress={onBack}>
-      <Text style={styles.back}>← Back</Text>
-    </TouchableOpacity>
-    <Text style={styles.header}>{directory.name} Messages</Text>
-    <FlatList
-      data={directory.messages}
-      keyExtractor={(item, index) => `${directory.name}-${index}`}
-      renderItem={({ item }) => <Text style={styles.message}>{item}</Text>}
-    />
-  </View>
-);
+const MessageScreen: React.FC<Props> = ({ directory, onBack }) => {
+  const { colors } = useTheme();
+  const [messages, setMessages] = useState(directory.messages);
+  const [newMessage, setNewMessage] = useState('');
+
+  const addMessage = () => {
+    if (newMessage.trim()) {
+      setMessages([...messages, newMessage]);
+      setNewMessage('');
+    }
+  };
+
+  const removeMessage = (index: number) => {
+    Alert.alert('Delete Message', 'Are you sure you want to delete this message?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          const updated = [...messages];
+          updated.splice(index, 1);
+          setMessages(updated);
+        }
+      }
+    ]);
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={[styles.container, { backgroundColor: colors.background }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <TouchableOpacity style={[styles.backButton, { backgroundColor: colors.primary }]} onPress={onBack}>
+        <Text style={styles.backIcon}>←</Text>
+      </TouchableOpacity>
+
+      <Text style={[styles.header, { color: colors.text }]}>{directory.icon} {directory.name}</Text>
+
+      <FlatList
+        data={messages}
+        keyExtractor={(_, index) => `${directory.name}-${index}`}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            onLongPress={() => removeMessage(index)}
+            style={[styles.messageCard, { backgroundColor: colors.messageBg }]}
+          >
+            <Text style={[styles.messageText, { color: colors.text }]}>{item}</Text>
+            <Text style={[styles.hintText, { color: colors.text + '88' }]}>Long press to delete</Text>
+          </TouchableOpacity>
+        )}
+      />
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
+          value={newMessage}
+          onChangeText={setNewMessage}
+          placeholder="Add a message..."
+          placeholderTextColor={colors.text + '99'}
+        />
+        <TouchableOpacity onPress={addMessage}>
+          <Text style={[styles.send, { color: colors.accent }]}>Send</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
-  back: {
-    fontSize: 16,
-    color: 'blue',
-    marginBottom: 10,
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  backIcon: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   header: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 15,
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
   },
-  message: {
+  messageCard: {
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  messageText: {
     fontSize: 16,
+    fontWeight: '500',
+  },
+  hintText: {
+    fontSize: 12,
+    marginTop: 4,
+    fontStyle: 'italic',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  input: {
+    flex: 1,
     padding: 12,
-    backgroundColor: '#fff3e0',
-    marginVertical: 5,
-    borderRadius: 6,
+    borderRadius: 10,
+    fontSize: 16,
+    marginRight: 10,
+  },
+  send: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
