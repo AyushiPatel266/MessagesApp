@@ -4,12 +4,6 @@ export interface Directory {
   messages: string[];
 }
 
-export interface Directory {
-  name: string;
-  icon: string;
-  messages: string[];
-}
-
 export const directories: Directory[] = [
   {
     name: "Important",
