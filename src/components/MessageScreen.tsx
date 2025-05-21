@@ -10,6 +10,7 @@ import {
   Platform,
   Alert,
 } from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Directory } from '../data/data';
 import { useTheme } from '../context/ThemeContext';
 
@@ -50,8 +51,11 @@ const MessageScreen: React.FC<Props> = ({ directory, onBack }) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <TouchableOpacity style={[styles.backButton, { backgroundColor: colors.primary }]} onPress={onBack}>
-        <Text style={styles.backIcon}>←</Text>
+      <TouchableOpacity
+        style={[styles.backButton, { backgroundColor: colors.card, borderColor: colors.primary }]}
+        onPress={onBack}
+      >
+        <MaterialIcons name="arrow-back" size={24} color={colors.primary} />
       </TouchableOpacity>
 
       <Text style={[styles.header, { color: colors.text }]}>{directory.icon} {directory.name}</Text>
@@ -89,17 +93,18 @@ const MessageScreen: React.FC<Props> = ({ directory, onBack }) => {
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+    borderWidth: 1.5,
     shadowColor: '#000',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 6,
-    elevation: 4,
+    elevation: 3,
   },
   backIcon: {
     fontSize: 20,
