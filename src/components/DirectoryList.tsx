@@ -38,7 +38,7 @@ const DirectoryList: React.FC<Props> = ({ onSelect }) => {
           {
             backgroundColor: colors.card,
             color: colors.text,
-            borderColor: colors.accent,
+            borderColor: colors.primary,
           },
         ]}
         placeholder="🔍  Search directories..."
@@ -46,9 +46,6 @@ const DirectoryList: React.FC<Props> = ({ onSelect }) => {
         value={search}
         onChangeText={setSearch}
       />
-
-      {/* Theme Toggle */}
-      <ThemeToggle />
 
       {/* Directory List */}
       <FlatList
@@ -59,13 +56,16 @@ const DirectoryList: React.FC<Props> = ({ onSelect }) => {
             style={[styles.card, { backgroundColor: colors.card }]}
             onPress={() => onSelect(item)}
           >
-            <Text style={[styles.cardText, { color: colors.text }]}>
-              {item.icon}  {item.name}
-            </Text>
+            <Text style={[styles.cardText, { color: colors.text }]}> {item.icon}  {item.name}</Text>
           </TouchableOpacity>
         )}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 60 }}
       />
+
+      {/* Theme Toggle at bottom */}
+      <View style={styles.themeToggleWrapper}>
+        <ThemeToggle />
+      </View>
     </View>
   );
 };
@@ -113,6 +113,13 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: 18,
     fontWeight: '500',
+  },
+  themeToggleWrapper: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+    alignItems: 'center',
   },
 });
 

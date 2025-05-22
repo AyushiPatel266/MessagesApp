@@ -10,7 +10,6 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { Directory } from '../data/data';
 import { useTheme } from '../context/ThemeContext';
 
@@ -51,11 +50,8 @@ const MessageScreen: React.FC<Props> = ({ directory, onBack }) => {
       style={[styles.container, { backgroundColor: colors.background }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <TouchableOpacity
-        style={[styles.backButton, { backgroundColor: colors.card, borderColor: colors.primary }]}
-        onPress={onBack}
-      >
-        <MaterialIcons name="arrow-back" size={24} color={colors.primary} />
+      <TouchableOpacity style={[styles.backButton, { backgroundColor: colors.primary }]} onPress={onBack}>
+        <Text style={styles.backIcon}>←</Text>
       </TouchableOpacity>
 
       <Text style={[styles.header, { color: colors.text }]}>{directory.icon} {directory.name}</Text>
@@ -83,7 +79,7 @@ const MessageScreen: React.FC<Props> = ({ directory, onBack }) => {
           placeholderTextColor={colors.text + '99'}
         />
         <TouchableOpacity onPress={addMessage}>
-          <Text style={[styles.send, { color: colors.accent }]}>Send</Text>
+          <Text style={[styles.send, { color: colors.primary }]}>Send</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -98,8 +94,6 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
-    borderWidth: 1.5,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },

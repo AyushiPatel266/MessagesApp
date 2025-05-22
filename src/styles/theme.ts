@@ -1,19 +1,19 @@
 export const lightColors = {
-  background: "#F4F6FC",       // soft, clean background
-  card: "#FFFFFF",             // card surface
-  primary: "#3D5AFE",          // indigo blue
-  accent: "#FF6B81",           // coral pink
-  text: "#1E1E1E",             // strong body text
-  messageBg: "#E8F0FE",        // soft blue for messages
+  background: "#f2f4f5",
+  card: "#ffffff",
+  primary: "#4e89ae",
+  accent: "#f26419",
+  text: "#333333",
+  messageBg: "#d0e8ff",
 };
 
 export const darkColors = {
-  background: "#121212",
-  card: "#1E1E1E",
-  primary: "#3D5AFE",
-  accent: "#FF6B81",
-  text: "#EEEEEE",
-  messageBg: "#2F3136",
+  background: "#1c1c1e",
+  card: "#2c2c2e",
+  primary: "#64b5f6",
+  accent: "#ff9800",
+  text: "#ffffff",
+  messageBg: "#333344",
 };
 
 export type ThemeColors = typeof lightColors;
